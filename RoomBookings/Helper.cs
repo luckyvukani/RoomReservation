@@ -236,10 +236,12 @@ namespace RoomBookings
             }
         }
         public void TakeScreenshot(IWebDriver driver, String screenshotName)
-        {
+        {  
             ITakesScreenshot screenshot = (ITakesScreenshot)driver;
             Screenshot screenshot1 = screenshot.GetScreenshot();
-            String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Screenshots", screenshotName + DateTime.Now.ToString("yyyyMMddhhmmss") + ".png");
+            String folderPath = AppDomain.CurrentDomain.BaseDirectory.Replace("bin\\Debug\\net8.0\\", "") + "Screenshots\\";
+            DirectoryInfo dir = Directory.CreateDirectory(folderPath);
+            String filePath = dir + screenshotName + DateTime.Now.ToString("yyyyMMddhhmmss") + ".png";
             screenshot1.SaveAsFile(filePath);
         }
     }

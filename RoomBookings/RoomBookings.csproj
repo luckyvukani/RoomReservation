@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="screen_shots\**" />
+    <EmbeddedResource Remove="screen_shots\**" />
+    <None Remove="screen_shots\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
     <PackageReference Include="ExtentReports" Version="5.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
