@@ -1,4 +1,6 @@
 {
   "FirstName": "testuser",
-  "LastName": "TestLastName"
+  "LastName": "TestLastName",
+  "Email": "test@testmail.com",
+  "PhoneNumber": "0744444444422"
 }
