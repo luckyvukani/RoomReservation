@@ -7,11 +7,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace RoomBookings
 {
     public class Helper : POM
     {
+        public UserDetailsForm ReadTestDataJsonFile()
+        {
+            String JsonPath = AppDomain.CurrentDomain.BaseDirectory.Replace("RoomBookings\\bin\\Debug\\net8.0\\", "") + "TestData.json";
+            string jsonTextData = File.ReadAllText(JsonPath);
+            UserDetailsForm form = JsonSerializer.Deserialize<UserDetailsForm>(jsonTextData);
+            return form;
+        }
+        
+ 
         public void NavigateToFillDetailsForm(IWebDriver driver, ExtentTest test)
         {
             try
@@ -61,12 +71,14 @@ namespace RoomBookings
                 else
                 {
                     Console.WriteLine("No rooms available");
-                    test.GenerateLog(Status.Fail, "Navigate to Fill Your Details Form");
+                    test.GenerateLog(Status.Info, "No Rooms Available, please check later");
+                    driver.Quit();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("Failed to Navigate to fill your Details form", e.Message);
+                Assert.Fail("FAILED");
             }
         }
         public bool IsRoomElementVisible(IWebDriver driver)
@@ -99,13 +111,13 @@ namespace RoomBookings
         {
             try
             {
-                driver.FindElement(firstName).SendKeys("testName");
+                driver.FindElement(firstName).SendKeys(ReadTestDataJsonFile().FirstName);
                 test.GenerateLog(Status.Pass, "Enter First Name");
-                driver.FindElement(lastName).SendKeys("TestSurname");
+                driver.FindElement(lastName).SendKeys(ReadTestDataJsonFile().LastName);
                 test.GenerateLog(Status.Pass, "Enter Last Name");
-                driver.FindElement(email).SendKeys("test@gmail.com");
+                driver.FindElement(email).SendKeys(ReadTestDataJsonFile().Email);
                 test.GenerateLog(Status.Pass, "Enter Email ");
-                driver.FindElement(phone).SendKeys("0732222222222");
+                driver.FindElement(phone).SendKeys(ReadTestDataJsonFile().PhoneNumber);
                 test.GenerateLog(Status.Pass, "Enter Phone Number");
 
                 IWebElement btnReserve = driver.FindElement(btnReserveNow);
@@ -125,15 +137,15 @@ namespace RoomBookings
         {
             try
             {
-                driver.FindElement(firstName).SendKeys("testName");
+                driver.FindElement(firstName).SendKeys(ReadTestDataJsonFile().FirstName);
                 test.GenerateLog(Status.Pass, "Enter First Name");
-                driver.FindElement(lastName).SendKeys("TestSurname");
+                driver.FindElement(lastName).SendKeys(ReadTestDataJsonFile().LastName);
                 test.GenerateLog(Status.Pass, "Enter Last Name");
-                driver.FindElement(phone).SendKeys("0732222222222");
+                driver.FindElement(phone).SendKeys(ReadTestDataJsonFile().PhoneNumber);
                 test.GenerateLog(Status.Pass, "Enter Phone Number");
                 driver.FindElement(btnReserveNow).Click();
                 test.GenerateLog(Status.Pass, "Click Reserve Now Button");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
                 TakeScreenshot(driver, "Details form with missing email");
 
                 //Validate the message
@@ -148,6 +160,7 @@ namespace RoomBookings
                 test.GenerateLog(Status.Fail, "Validate the message when the email is empty");
                 test.GenerateLog(Status.Fail, "<pre>" + e.StackTrace + "</pre>");
                 TakeScreenshot(driver, "FAILED");
+                Assert.Fail("FAILED");
             }
         }
         public void validateBookingMessage(IWebDriver driver, ExtentTest test)
@@ -179,6 +192,7 @@ namespace RoomBookings
                 Console.WriteLine("Failed, Incorrect Message", ex.Message);
                 test.GenerateLog(Status.Fail, "<pre>" + ex.StackTrace + "</pre>");
                 TakeScreenshot(driver, "System crashed");
+                Assert.Fail("FAILED");
             }
         }
         public void LinkRedirect(IWebDriver driver, ExtentTest test)
