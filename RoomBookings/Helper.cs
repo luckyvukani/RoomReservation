@@ -143,9 +143,12 @@ namespace RoomBookings
                 test.GenerateLog(Status.Pass, "Enter Last Name");
                 driver.FindElement(phone).SendKeys(ReadTestDataJsonFile().PhoneNumber);
                 test.GenerateLog(Status.Pass, "Enter Phone Number");
+                IWebElement btnReserve = driver.FindElement(btnReserveNow);
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", btnReserve);
+                Thread.Sleep(1000);
                 driver.FindElement(btnReserveNow).Click();
                 test.GenerateLog(Status.Pass, "Click Reserve Now Button");
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 TakeScreenshot(driver, "Details form with missing email");
 
                 //Validate the message
