@@ -22,4 +22,4 @@ To get this project to run you need the following:
                                                         -Helper.cs for Methods
                                                         -POM.cs for Elements
        To run the tests, click on view and click on test explorer.
-       On the Test explorer, expand roomBooking>Bookings and run those 3 tests(BookRoom,BookRoomMissingEai, and LinksRedirect).
+       On the Test explorer, expand roomBooking>Bookings and run those 4 tests(BookRoom,BookRoomMissingEai,delete booking, and LinksRedirect).
