@@ -50,6 +50,23 @@ namespace RoomBookings
             }
         }
         [Test]
+        public void DeleteBooking()
+        {
+            test = extent.CreateTest("Delete Booking");
+            try
+            {
+                Helper admin = new Helper();
+                admin.adminLogin(driver, test);
+                admin.DeleteBooking(driver, test);
+            }
+            catch (Exception e)
+            {
+                test.Log(Status.Fail, "Test Failed: " + e.Message);
+                test.Log(Status.Fail, "<pre>" + e.StackTrace + "</pre>");
+            }
+        }
+        
+        [Test]
         public void linksRedirect()
         {
             test = extent.CreateTest("linksRedirect");

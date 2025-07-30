@@ -39,6 +39,14 @@ namespace RoomBookings
         public By Reserve => By.XPath("//button[@id='doReservation']");
         public By lRoom => By.XPath("//a[@class='btn btn-primary']");
         public By findElement => By.XPath("//*[@id=\"root-container\"]/div/div[2]/div/div[2]/div/div/p[1]");
+        /////////////////////////////////////////////////////////////////////
+        public By Username => By.XPath("//input[@id='username']");
+        public By Password => By.XPath("//input[@id='password']");
+        public By Login => By.XPath("//button[@id='doLogin']");
+        public By Messages => By.XPath("//a[@href='/admin/message']");
+        public By RoomCreated => By.XPath("//div[@data-testid=\'roomlisting\']");
+        public By DeleteButton => By.XPath("//span[@class=\"fa fa-trash bookingDelete\"]");
+
     }
 }
 

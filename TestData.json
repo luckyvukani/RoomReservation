@@ -2,5 +2,7 @@
   "FirstName": "testuser",
   "LastName": "TestLastName",
   "Email": "test@testmail.com",
-  "PhoneNumber": "0744444444422"
+  "PhoneNumber": "0744444444422",
+  "UserName": "admin",
+  "Password": "password"
 }

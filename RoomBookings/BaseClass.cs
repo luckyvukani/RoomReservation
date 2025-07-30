@@ -38,7 +38,7 @@ namespace RoomBookings
               
                 driver.Navigate().GoToUrl("https://automationintesting.online/");
                 Thread.Sleep(2000);
-                om.TakeScreenshot(driver, "Site url");
+                om.TakeScreenshot(driver, "Home Page");
                 driver.Manage().Window.Maximize();
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             }

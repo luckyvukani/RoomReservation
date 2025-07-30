@@ -33,7 +33,7 @@ namespace RoomBookings
                 test.GenerateLog(Status.Pass, "Click Booking Button on top right of the page");
                 // test.GenerateLog(Status.Pass, "Booking clicked successfully");
                 //Check if rooms are available
-                if (IsRoomElementVisible(driver))
+                if (IsElementVisible(driver, btnBookNow))
                 {
                     IWebElement rooms1 = driver.FindElement(lRoom);
                     ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView({block: 'center'});", rooms1);
@@ -81,25 +81,38 @@ namespace RoomBookings
                 Assert.Fail("FAILED");
             }
         }
-        public bool IsRoomElementVisible(IWebDriver driver)
+        //public bool IsRoomElementVisible(IWebDriver driver)
+        //{
+        //    try
+        //    {
+        //        var element = driver.FindElement(btnBookNow);
+        //        return element.Displayed;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //        return false;
+        //    }
+        //}
+        //public bool IsMSGElementVisible(IWebDriver driver)
+        //{
+        //    try
+        //    {
+        //        var element = driver.FindElement(findElement);
+        //        return element.Displayed;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.Message);
+        //        return false;
+        //    }
+        //}
+        public bool IsElementVisible(IWebDriver driver, By element)
         {
             try
             {
-                var element = driver.FindElement(btnBookNow);
-                return element.Displayed;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
-        }
-        public bool IsMSGElementVisible(IWebDriver driver)
-        {
-            try
-            {
-                var element = driver.FindElement(findElement);
-                return element.Displayed;
+               // var element = driver.FindElement(webElement);
+                return driver.FindElement(element).Displayed;
             }
             catch (Exception e)
             {
@@ -166,11 +179,72 @@ namespace RoomBookings
                 Assert.Fail("FAILED");
             }
         }
+        public void adminLogin(IWebDriver driver, ExtentTest test)
+        {
+            try
+            {
+                driver.FindElement(admin).Click();
+                Thread.Sleep(1000);
+                test.GenerateLog(Status.Pass, "Click admin button");
+                driver.FindElement(Username).SendKeys(ReadTestDataJsonFile().UserName);
+                test.GenerateLog(Status.Pass, "Enter Username");
+                driver.FindElement(Password).SendKeys(ReadTestDataJsonFile().Password);
+                test.GenerateLog(Status.Pass, "Enter Password");
+                driver.FindElement(Login).Click();
+                Thread.Sleep(100);
+                test.GenerateLog(Status.Pass, "Click Login Button");
+                TakeScreenshot(driver, "Admin login page");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't navigated to admin", e.Message);
+                test.Log(Status.Fail, e.StackTrace);
+                TakeScreenshot(driver, "FAILED");
+            }
+        }
+        public void DeleteBooking(IWebDriver driver, ExtentTest test)
+        {
+            try
+            {
+                if (IsElementVisible(driver, RoomCreated))
+                {
+                    TakeScreenshot(driver, "Available Rooms");
+                    driver.FindElement(RoomCreated).Click();
+                    Thread.Sleep(300);
+                    test.GenerateLog(Status.Pass, "Select room");
+
+                    if (IsElementVisible(driver, DeleteButton))
+                    {
+                        driver.FindElement(DeleteButton).Click();
+                        Thread.Sleep(300);
+                        test.GenerateLog(Status.Pass, "Delete Button");
+                        TakeScreenshot(driver, "Booked Rooms");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No bookings in this room");
+                        test.GenerateLog(Status.Info, "No bookings in this room");
+                        driver.Quit();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No Rooms Created");
+                    test.GenerateLog(Status.Info, "No rooms Created");
+                    driver.Quit();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't navigated to admin", e.Message);
+                TakeScreenshot(driver, "FAILED");
+            }
+        }
         public void validateBookingMessage(IWebDriver driver, ExtentTest test)
         {
             try
             {
-                if (IsMSGElementVisible(driver))
+                if (IsElementVisible(driver, findElement))
                 {
 
                     IWebElement confimationMessage = driver.FindElement(findElement);
